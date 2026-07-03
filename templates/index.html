@@ -73,6 +73,111 @@
   }
   .nav-links a:hover { color: var(--ink); }
 
+  /* ── HAMBURGER ── */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 110;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--ink);
+    transition: transform 0.3s, opacity 0.3s;
+    border-radius: 1px;
+  }
+  .nav-hamburger.open span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .nav-hamburger.open span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-hamburger.open span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* ── DRAWER ── */
+  .drawer-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    background: rgba(24, 19, 16, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+  .drawer-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .drawer {
+    position: fixed;
+    top: 0; right: 0;
+    width: 260px;
+    height: 100vh;
+    z-index: 200;
+    background: var(--cream);
+    padding: 5rem 2rem 2rem;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+  }
+  .drawer.open { transform: translateX(0); }
+
+  .drawer-close {
+    position: absolute;
+    top: 1rem; right: 1.5rem;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  .drawer-close span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--ink);
+    border-radius: 1px;
+    position: absolute;
+    top: 50%; left: 50%;
+  }
+  .drawer-close span:nth-child(1) {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  .drawer-close span:nth-child(2) {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .drawer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .drawer-links a {
+    font-size: 0.85rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .drawer-links a:hover { color: var(--orange); }
+
   /* ── SECTIONS ── */
   section { padding: 8rem 3rem; }
 
@@ -388,7 +493,8 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
     nav { padding: 1rem 1.5rem; }
-    .nav-links { gap: 1.5rem; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
     section, #product { padding: 5rem 1.5rem; }
     #hero { padding-left: 1.5rem; padding-right: 1.5rem; }
     #mission, #contact { grid-template-columns: 1fr; gap: 2rem; }
@@ -416,7 +522,26 @@
     <li><a href="#product">Renqore</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
+
+<!-- DRAWER -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<div class="drawer" id="drawer">
+  <button class="drawer-close" id="drawerClose" aria-label="Close menu">
+    <span></span>
+    <span></span>
+  </button>
+  <ul class="drawer-links">
+    <li><a href="#mission">Mission</a></li>
+    <li><a href="#product">Renqore</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -545,6 +670,35 @@
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 40);
   }, { passive: true });
+
+  /* ── DRAWER toggle ── */
+  const hamburger  = document.getElementById('navHamburger');
+  const drawer     = document.getElementById('drawer');
+  const overlay    = document.getElementById('drawerOverlay');
+  const closeBtn   = document.getElementById('drawerClose');
+
+  function openDrawer() {
+    hamburger.classList.add('open');
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    hamburger.classList.remove('open');
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', openDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+
+  // Close drawer when a link is clicked
+  document.querySelectorAll('.drawer-links a').forEach(link => {
+    link.addEventListener('click', closeDrawer);
+  });
 
   /* ── SCRAMBLE animation ── */
   const TARGET   = 'iterated';
