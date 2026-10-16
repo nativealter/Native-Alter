@@ -385,6 +385,19 @@
   }
   .product-body p:last-of-type { margin-bottom: 2.5rem; }
 
+  .product-sale {
+    border-left: 2px solid var(--orange);
+    padding-left: 1.25rem;
+  }
+  .product-sale strong { color: var(--cream); font-weight: 700; }
+  .product-sale a {
+    color: var(--orange);
+    text-decoration: none;
+    border-bottom: 1px solid var(--orange);
+    transition: color 0.2s;
+  }
+  .product-sale a:hover { color: var(--orange-dim); border-color: var(--orange-dim); }
+
   .cta-buttons {
     display: flex;
     gap: 1rem;
@@ -610,7 +623,7 @@
     <div>
       <p class="section-label">Product</p>
       <br>
-      <span class="version-badge">V1.0 — Now Available</span>
+      <span class="version-badge">Looking for Acquisitor</span>
     </div>
     <div class="product-body">
       <h2 class="product-name">Ren<span>qore</span></h2>
@@ -631,8 +644,14 @@
         and surfaces a ranked shortlist tailored to each client's requirements.
         No manual sifting. No wasted hours.
       </p>
+      <p class="product-sale">
+        Renqore is <strong>for sale</strong> — Native Alter is currently seeking an
+        acquisitor. If you're interested in owning this platform, get in touch
+        at <a href="https://sale.renqore.com" target="_blank" rel="noopener">sale.renqore.com</a>.
+      </p>
       <div class="cta-buttons">
-        <a href="https://www.renqore.com/auth" target="_blank" rel="noopener" class="btn-primary">Get Started</a>
+        <a href="https://sale.renqore.com" target="_blank" rel="noopener" class="btn-primary">Enquire About the Sale</a>
+        <a href="https://www.renqore.com/auth" target="_blank" rel="noopener" class="btn-ghost">Get Started →</a>
         <a href="https://www.renqore.com/documentation" target="_blank" rel="noopener" class="btn-ghost">Read the Docs →</a>
       </div>
     </div>
